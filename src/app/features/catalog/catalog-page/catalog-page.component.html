@@ -1,0 +1,75 @@
+<div class="wrap section">
+  <h1>Capi fatti a mano con l'uncinetto</h1>
+
+  <form class="filters" (ngSubmit)="submitSearch()">
+    <div class="field field-q">
+      <label for="q">Cerca nel catalogo</label>
+      <input id="q" name="q" type="search" [(ngModel)]="qInput" placeholder="Es. borsa, abito lungo…" />
+    </div>
+    <div class="field">
+      <label for="cat">Categoria</label>
+      <select id="cat" name="cat" [(ngModel)]="categoryInput" (ngModelChange)="onCategoryChange()">
+        <option value="">Tutte</option>
+        @for (f of result()?.facets?.categories ?? []; track f.code) {
+          <option [value]="f.code">{{ f.name }} ({{ f.count }})</option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label for="sort">Ordina per</label>
+      <select id="sort" name="sort" [(ngModel)]="sortInput" (ngModelChange)="onSortChange()">
+        @for (opt of sortOptions; track opt.value) {
+          <option [value]="opt.value">{{ opt.label }}</option>
+        }
+      </select>
+    </div>
+    <button class="btn" type="submit">Cerca</button>
+  </form>
+
+  @if (qInput || categoryInput) {
+    <div class="chips">
+      @if (qInput) {
+        <span class="chip">Testo: <b>{{ qInput }}</b><button type="button" (click)="clearQ()" aria-label="Rimuovi filtro testo">×</button></span>
+      }
+      @if (categoryInput) {
+        <span class="chip">Categoria: <b>{{ categoryInput }}</b><button type="button" (click)="clearCategory()" aria-label="Rimuovi filtro categoria">×</button></span>
+      }
+      <button class="link-btn" type="button" (click)="clearAll()">Azzera tutti i criteri</button>
+    </div>
+  }
+
+  @if (loading()) {
+    <p class="result-line">Caricamento…</p>
+  } @else if (unavailable()) {
+    <div class="empty-state">
+      <h3>Il catalogo non è al momento consultabile</h3>
+      <p>Riprova tra qualche minuto.</p>
+    </div>
+  } @else {
+    @if (result(); as res) {
+      <p class="result-line">{{ res.totalElements }} {{ res.totalElements === 1 ? 'capo disponibile' : 'capi disponibili' }} · pagina {{ res.page }} di {{ res.totalPages }}</p>
+
+      @if (res.items.length) {
+        <div class="grid">
+          @for (p of res.items; track p.sku) {
+            <app-product-card [product]="p" />
+          }
+        </div>
+      } @else {
+        <div class="empty-state">
+          <h3>Nessun capo corrisponde a questi criteri</h3>
+          <p>{{ res.message ?? 'Prova con una parola diversa o un\'altra categoria.' }}</p>
+          <button class="btn btn-quiet" type="button" (click)="clearAll()">Azzera i criteri</button>
+        </div>
+      }
+
+      @if (res.totalPages > 1) {
+        <nav class="pager" aria-label="Pagine del catalogo">
+          @for (n of pageNumbers(); track n) {
+            <button type="button" [attr.aria-current]="n === res.page" (click)="goToPage(n)">{{ n }}</button>
+          }
+        </nav>
+      }
+    }
+  }
+</div>

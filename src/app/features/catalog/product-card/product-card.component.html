@@ -1,0 +1,23 @@
+<a class="card" [routerLink]="['/prodotto', product.sku]">
+  <div class="card-art" [style.background]="'#EAF1F7'">
+    <span class="card-cat">{{ product.category.name }}</span>
+  </div>
+  <div class="card-body">
+    <span class="card-name">{{ product.name }}</span>
+    <span class="card-yarn">{{ product.yarn }}</span>
+    <div class="card-foot">
+      <span class="price">{{ product.priceCents / 100 | currency: product.currency }}</span>
+      @switch (product.availability) {
+        @case ('ESAURITO') {
+          <span class="stock stock-out">Esaurito</span>
+        }
+        @case ('ULTIMI_PEZZI') {
+          <span class="stock stock-low">Ultimi {{ product.availableQty }}</span>
+        }
+        @default {
+          <span class="stock stock-ok">Disponibile</span>
+        }
+      }
+    </div>
+  </div>
+</a>

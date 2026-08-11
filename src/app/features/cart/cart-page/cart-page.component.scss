@@ -1,0 +1,118 @@
+.section {
+  padding: 28px 0 48px;
+}
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr;
+  gap: 24px;
+  align-items: start;
+  margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 68px 1fr auto;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.line:last-child {
+  border-bottom: 0;
+}
+
+.line-art {
+  border-radius: 8px;
+  background: var(--blu);
+  aspect-ratio: 1;
+}
+
+.line-name {
+  font-weight: 600;
+}
+
+.line-warning {
+  color: var(--errore);
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
+.line-ctl {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.qty button {
+  width: 32px;
+  height: 34px;
+  background: none;
+  border: 0;
+}
+
+.qty input {
+  width: 42px;
+  height: 34px;
+  border: 0;
+  text-align: center;
+  font: inherit;
+}
+
+.link-btn {
+  background: none;
+  border: 0;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  font-size: 0.84rem;
+}
+
+.line-tot {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.totals {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  font-size: 0.92rem;
+}
+
+.totals.grand {
+  border-top: 1px solid var(--line);
+  margin-top: 8px;
+  padding-top: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.note {
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}

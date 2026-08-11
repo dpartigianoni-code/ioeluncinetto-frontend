@@ -1,0 +1,16 @@
+# Dipendenze e build
+node_modules/
+dist/
+out-tsc/
+.angular/
+
+# Ambienti locali
+.env
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store

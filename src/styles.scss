@@ -1,0 +1,128 @@
+/*
+ * Stile globale minimo. Non è una replica del prototipo di validazione: fogli di
+ * stile e contenuti editoriali definitivi sono esplicitamente rinviati alla fase
+ * Implementation (Solution Design, capitolo 1.1). Qui solo il necessario per un
+ * percorso d'acquisto leggibile e responsivo (RNF05).
+ */
+
+:root {
+  --ink: #0f3252;
+  --ink-soft: #5f7c95;
+  --paper: #fff8f7;
+  --surface: #ffffff;
+  --line: #e6dad5;
+  --blu: #044e81;
+  --blu-dark: #03395f;
+  --salvia: #2f6e5e;
+  --errore: #a33a2c;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin: 0 0 0.5em;
+}
+
+a {
+  color: var(--blu);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn {
+  background: var(--blu);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-weight: 600;
+}
+
+.btn:hover {
+  background: var(--blu-dark);
+}
+
+.btn:disabled {
+  background: #a8bcca;
+  cursor: not-allowed;
+}
+
+.btn-quiet {
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field input,
+.field select {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 9px 11px;
+  font: inherit;
+}
+
+.field .error {
+  color: var(--errore);
+  font-size: 0.82rem;
+}
+
+.alert {
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+}
+
+.alert-bad {
+  background: #fbefec;
+  color: var(--errore);
+  border: 1px solid #edccc5;
+}
+
+.alert-ok {
+  background: #e6f0ec;
+  color: var(--salvia);
+  border: 1px solid #bcd8cd;
+}
+
+.empty-state {
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--ink-soft);
+}

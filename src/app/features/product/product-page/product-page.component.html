@@ -1,0 +1,55 @@
+<div class="wrap section">
+  <a routerLink="/catalogo" class="crumb">&larr; Torna al catalogo</a>
+
+  @if (loading()) {
+    <p class="result-line">Caricamento…</p>
+  } @else if (notFound()) {
+    <div class="empty-state">
+      <h3>Questo capo non è più disponibile</h3>
+      <p>Il pezzo è stato venduto o ritirato dal catalogo.</p>
+      <a class="btn" routerLink="/catalogo">Torna al catalogo</a>
+    </div>
+  } @else {
+    @if (product(); as p) {
+      <div class="detail">
+        <div class="detail-art">
+          <span class="detail-cat">{{ p.category.name }}</span>
+        </div>
+        <div>
+          <p class="eyebrow">{{ p.category.name }} · {{ p.sku }}</p>
+          <h1>{{ p.name }}</h1>
+          <p class="price-lg">{{ p.priceCents / 100 | currency: p.currency }}</p>
+          <p>{{ p.description }}</p>
+          <dl>
+            <dt>Filato</dt>
+            <dd>{{ p.yarn }}</dd>
+            <dt>Misure</dt>
+            <dd>{{ p.sizes }}</dd>
+            <dt>Lavorazione</dt>
+            <dd>{{ p.workHours }}</dd>
+            <dt>Disponibilità</dt>
+            <dd>{{ p.availableQty === 0 ? 'Esaurito' : p.availableQty + ' pezzi pronti' }}</dd>
+          </dl>
+
+          @if (p.purchasable) {
+            <div class="buy-row">
+              <div class="field">
+                <label for="qta">Quantità (max {{ maxQty() }})</label>
+                <div class="qty">
+                  <button type="button" (click)="decrement()" aria-label="Diminuisci quantità">-</button>
+                  <input id="qta" type="number" [value]="quantity" readonly />
+                  <button type="button" (click)="increment()" aria-label="Aumenta quantità">+</button>
+                </div>
+              </div>
+              <button class="btn" type="button" [disabled]="adding()" (click)="addToCart()">
+                {{ adding() ? 'Aggiunta in corso…' : 'Aggiungi al carrello' }}
+              </button>
+            </div>
+          } @else {
+            <div class="alert alert-bad">Questo capo è esaurito e non può essere aggiunto al carrello.</div>
+          }
+        </div>
+      </div>
+    }
+  }
+</div>

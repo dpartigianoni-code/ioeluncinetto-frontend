@@ -1,0 +1,21 @@
+<header class="site-head">
+  <div class="wrap head-row">
+    <a routerLink="/catalogo" class="brand">Io e l'uncinetto</a>
+    <div class="spacer"></div>
+    <a routerLink="/carrello" class="cart-link">
+      Carrello <span class="cart-count">{{ itemCount() }}</span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<div class="toast-zone" role="status" aria-live="polite">
+  @for (a of alerts(); track a.id) {
+    <div class="toast" [class.toast-bad]="a.kind === 'bad'" (click)="dismiss(a.id)">
+      {{ a.text }}
+    </div>
+  }
+</div>

@@ -8,12 +8,19 @@ import { ProductDetail } from '../../../core/models/catalog.model';
 import { AlertService } from '../../../core/services/alert.service';
 import { CartService } from '../../../core/services/cart.service';
 import { CatalogService } from '../../../core/services/catalog.service';
+import { ProductArtComponent } from '../../../shared/product-art/product-art.component';
+import { QuantityStepperComponent } from '../../../shared/quantity-stepper/quantity-stepper.component';
 
-/** EP03 (dettaglio) + comando di aggiunta al carrello (EP04). */
+/**
+ * EP03 (dettaglio) + comando di aggiunta al carrello (EP04). ProductDetail
+ * non espone `availability` (solo `availableQty`/`purchasable`): la
+ * disponibilità qui è mostrata come testo nella scheda tecnica, non come
+ * StockBadgeComponent (pensato per ProductSummary, usato in catalogo/carrello).
+ */
 @Component({
   selector: 'app-product-page',
   standalone: true,
-  imports: [RouterLink, CurrencyPipe],
+  imports: [RouterLink, CurrencyPipe, ProductArtComponent, QuantityStepperComponent],
   templateUrl: './product-page.component.html',
   styleUrl: './product-page.component.scss',
 })
@@ -44,12 +51,8 @@ export class ProductPageComponent implements OnInit {
     return p ? Math.max(1, Math.min(10, p.availableQty)) : 1;
   }
 
-  decrement(): void {
-    this.quantity = Math.max(1, this.quantity - 1);
-  }
-
-  increment(): void {
-    this.quantity = Math.min(this.maxQty(), this.quantity + 1);
+  onQuantityChange(value: number): void {
+    this.quantity = value;
   }
 
   addToCart(): void {

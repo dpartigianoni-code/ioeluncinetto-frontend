@@ -1,73 +1,132 @@
-<div class="wrap section">
-  <h1>Capi fatti a mano con l'uncinetto</h1>
+<section class="catalog-banner">
+  <img src="assets/brand/sfondo.png" alt="Borse e capi lavorati a uncinetto" class="catalog-banner-img" />
+</section>
 
-  <form class="filters" (ngSubmit)="submitSearch()">
-    <div class="field field-q">
-      <label for="q">Cerca nel catalogo</label>
-      <input id="q" name="q" type="search" [(ngModel)]="qInput" placeholder="Es. borsa, abito lungo…" />
-    </div>
-    <div class="field">
-      <label for="cat">Categoria</label>
-      <select id="cat" name="cat" [(ngModel)]="categoryInput" (ngModelChange)="onCategoryChange()">
-        <option value="">Tutte</option>
-        @for (f of result()?.facets?.categories ?? []; track f.code) {
-          <option [value]="f.code">{{ f.name }} ({{ f.count }})</option>
+<section class="hero">
+  <div class="wrap py-5">
+    <div class="row align-items-center gy-4">
+      <div class="col-lg-7">
+        <p class="eyebrow hero-eyebrow mb-2">Fatto a mano con amore &middot; Italia</p>
+        <h1 class="display-5 text-white mb-3">Capi che nascono <em>un punto alla volta</em></h1>
+        <p class="hero-lead mb-0">
+          Abiti e borse lavorati a uncinetto a mano, in piccole quantità. Ogni pezzo riporta il filato usato e le ore
+          di lavorazione: quello che vedi è quello che c'è in laboratorio.
+        </p>
+      </div>
+      <div class="col-lg-5 d-none d-lg-flex justify-content-center">
+        @if (heroImages().length) {
+          <div class="hero-carousel">
+            <div class="hero-carousel-track">
+              @for (p of heroImages(); track $index) {
+                <img [src]="p.imageUrl" [alt]="p.name" class="hero-carousel-img" loading="lazy" />
+              }
+            </div>
+          </div>
         }
-      </select>
+      </div>
     </div>
-    <div class="field">
-      <label for="sort">Ordina per</label>
-      <select id="sort" name="sort" [(ngModel)]="sortInput" (ngModelChange)="onSortChange()">
-        @for (opt of sortOptions; track opt.value) {
-          <option [value]="opt.value">{{ opt.label }}</option>
-        }
-      </select>
+  </div>
+</section>
+
+<div class="wrap section">
+  <form class="filters card border-0 shadow-sm p-3 p-md-4" (ngSubmit)="submitSearch()">
+    <div class="row g-3 align-items-end">
+      <div class="col-12 col-md-5">
+        <label for="q" class="form-label small text-uppercase text-body-secondary">Cerca nel catalogo</label>
+        <input
+          id="q"
+          name="q"
+          type="search"
+          class="form-control"
+          [(ngModel)]="qInput"
+          placeholder="Es. borsa, abito lungo…"
+        />
+      </div>
+      <div class="col-6 col-md-3">
+        <label for="cat" class="form-label small text-uppercase text-body-secondary">Categoria</label>
+        <select id="cat" name="cat" class="form-select" [(ngModel)]="categoryInput" (ngModelChange)="onCategoryChange()">
+          <option value="">Tutte</option>
+          @for (f of result()?.facets?.categories ?? []; track f.code) {
+            <option [value]="f.code">{{ f.name }} ({{ f.count }})</option>
+          }
+        </select>
+      </div>
+      <div class="col-6 col-md-3">
+        <label for="sort" class="form-label small text-uppercase text-body-secondary">Ordina per</label>
+        <select id="sort" name="sort" class="form-select" [(ngModel)]="sortInput" (ngModelChange)="onSortChange()">
+          @for (opt of sortOptions; track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-12 col-md-1 d-grid">
+        <button class="btn btn-primary" type="submit">Cerca</button>
+      </div>
     </div>
-    <button class="btn" type="submit">Cerca</button>
   </form>
 
   @if (qInput || categoryInput) {
-    <div class="chips">
+    <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
       @if (qInput) {
-        <span class="chip">Testo: <b>{{ qInput }}</b><button type="button" (click)="clearQ()" aria-label="Rimuovi filtro testo">×</button></span>
+        <span class="badge rounded-pill chip">
+          Testo: <b>{{ qInput }}</b>
+          <button type="button" class="btn-close btn-close-sm" (click)="clearQ()" aria-label="Rimuovi filtro testo"></button>
+        </span>
       }
       @if (categoryInput) {
-        <span class="chip">Categoria: <b>{{ categoryInput }}</b><button type="button" (click)="clearCategory()" aria-label="Rimuovi filtro categoria">×</button></span>
+        <span class="badge rounded-pill chip">
+          Categoria: <b>{{ categoryInput }}</b>
+          <button type="button" class="btn-close btn-close-sm" (click)="clearCategory()" aria-label="Rimuovi filtro categoria"></button>
+        </span>
       }
-      <button class="link-btn" type="button" (click)="clearAll()">Azzera tutti i criteri</button>
+      <button class="btn btn-link btn-sm text-body-secondary" type="button" (click)="clearAll()">Azzera tutti i criteri</button>
     </div>
   }
 
   @if (loading()) {
-    <p class="result-line">Caricamento…</p>
+    <div class="d-flex align-items-center gap-2 result-line">
+      <span class="spinner-border spinner-border-sm text-primary" aria-hidden="true"></span>
+      <span>Caricamento…</span>
+    </div>
   } @else if (unavailable()) {
-    <div class="empty-state">
-      <h3>Il catalogo non è al momento consultabile</h3>
-      <p>Riprova tra qualche minuto.</p>
+    <div class="empty-state text-center">
+      <h3 class="h4">Il catalogo non è al momento consultabile</h3>
+      <p class="text-body-secondary mb-0">Riprova tra qualche minuto.</p>
     </div>
   } @else {
     @if (result(); as res) {
-      <p class="result-line">{{ res.totalElements }} {{ res.totalElements === 1 ? 'capo disponibile' : 'capi disponibili' }} · pagina {{ res.page }} di {{ res.totalPages }}</p>
+      <p class="result-line">
+        {{ res.totalElements }} {{ res.totalElements === 1 ? 'capo disponibile' : 'capi disponibili' }} &middot; pagina
+        {{ res.page }} di {{ res.totalPages }}
+      </p>
 
       @if (res.items.length) {
-        <div class="grid">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
           @for (p of res.items; track p.sku) {
-            <app-product-card [product]="p" />
+            <div class="col">
+              <app-product-card [product]="p" />
+            </div>
           }
         </div>
       } @else {
-        <div class="empty-state">
-          <h3>Nessun capo corrisponde a questi criteri</h3>
-          <p>{{ res.message ?? 'Prova con una parola diversa o un\'altra categoria.' }}</p>
-          <button class="btn btn-quiet" type="button" (click)="clearAll()">Azzera i criteri</button>
+        <div class="empty-state text-center">
+          <h3 class="h4">Nessun capo corrisponde a questi criteri</h3>
+          <p class="text-body-secondary">{{ res.message ?? "Prova con una parola diversa o un'altra categoria." }}</p>
+          <button class="btn btn-outline-secondary" type="button" (click)="clearAll()">Azzera i criteri</button>
         </div>
       }
 
       @if (res.totalPages > 1) {
-        <nav class="pager" aria-label="Pagine del catalogo">
-          @for (n of pageNumbers(); track n) {
-            <button type="button" [attr.aria-current]="n === res.page" (click)="goToPage(n)">{{ n }}</button>
-          }
+        <nav class="mt-4" aria-label="Pagine del catalogo">
+          <ul class="pagination justify-content-center mb-0">
+            @for (n of pageNumbers(); track n) {
+              <li class="page-item" [class.active]="n === res.page">
+                <button class="page-link" type="button" (click)="goToPage(n)" [attr.aria-current]="n === res.page ? 'page' : null">
+                  {{ n }}
+                </button>
+              </li>
+            }
+          </ul>
         </nav>
       }
     }

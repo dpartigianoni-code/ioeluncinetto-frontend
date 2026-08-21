@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.product-art {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: inherit;
+  overflow: hidden;
+
+  ::ng-deep svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.product-art-tall {
+  aspect-ratio: 4 / 5;
+}

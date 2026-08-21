@@ -3,11 +3,13 @@ import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { ProductSummary } from '../../../core/models/catalog.model';
+import { ProductArtComponent } from '../../../shared/product-art/product-art.component';
+import { StockBadgeComponent } from '../../../shared/stock-badge/stock-badge.component';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [RouterLink, CurrencyPipe],
+  imports: [RouterLink, CurrencyPipe, ProductArtComponent, StockBadgeComponent],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
 })

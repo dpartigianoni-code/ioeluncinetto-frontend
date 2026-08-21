@@ -1,128 +1,178 @@
 /*
- * Stile globale minimo. Non è una replica del prototipo di validazione: fogli di
- * stile e contenuti editoriali definitivi sono esplicitamente rinviati alla fase
- * Implementation (Solution Design, capitolo 1.1). Qui solo il necessario per un
- * percorso d'acquisto leggibile e responsivo (RNF05).
+ * Tema Bootstrap custom per "Io e l'uncinetto": stessa identità visiva del
+ * prototipo di validazione (palette derivata dal logo, Cormorant Garamond in
+ * display, Jost per il corpo testo) applicata sopra Bootstrap 5, cosicché la
+ * UI reale usi componenti Bootstrap (form, card, badge, pagination, alert...)
+ * invece di CSS ad hoc.
  */
 
+// 1. Palette del brand -------------------------------------------------
+$ink: #0f3252;
+$ink-soft: #5f7c95;
+$paper: #fff8f7;
+$surface: #ffffff;
+$line: #e6dad5;
+$blu: #044e81;
+$blu-dark: #03395f;
+$blu-chiaro: #eaf1f7;
+$salvia: #2f6e5e;
+$ocra: #b08237;
+$errore: #a33a2c;
+
+// 2. Override delle variabili Bootstrap (prima dell'import) ------------
+$primary: $blu;
+$secondary: $ink-soft;
+$success: $salvia;
+$warning: $ocra;
+$danger: $errore;
+$light: $paper;
+$dark: $ink;
+
+$body-bg: $paper;
+$body-color: $ink;
+$link-color: $blu;
+$link-hover-color: $blu-dark;
+$link-decoration: none;
+
+$font-family-base: 'Jost', system-ui, -apple-system, 'Segoe UI', sans-serif;
+$font-family-sans-serif: $font-family-base;
+$headings-font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+$headings-font-weight: 600;
+$headings-color: $ink;
+$font-family-monospace: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+
+$border-radius: 0.875rem;
+$border-radius-sm: 0.625rem;
+$border-radius-lg: 1rem;
+$border-radius-pill: 999px;
+$border-color: $line;
+
+$card-border-color: $line;
+$card-cap-bg: transparent;
+
+$btn-border-radius: 0.625rem;
+$btn-border-radius-sm: 0.5rem;
+$btn-border-radius-lg: 0.75rem;
+$btn-font-weight: 500;
+
+$input-border-color: $line;
+$input-border-radius: 0.625rem;
+$input-focus-border-color: $blu;
+
+$badge-font-weight: 500;
+$badge-padding-y: 0.35em;
+
+$navbar-light-color: $ink-soft;
+$navbar-light-hover-color: $blu;
+$navbar-light-active-color: $blu;
+
+$box-shadow-sm: 0 1px 2px rgba(10, 45, 74, 0.07);
+$box-shadow: 0 8px 24px -16px rgba(10, 45, 74, 0.34);
+$box-shadow-lg: 0 10px 30px -12px rgba(10, 45, 74, 0.35);
+
+$enable-negative-margins: true;
+
+@import 'bootstrap/scss/bootstrap';
+
+// 3. Token esposti anche come custom property CSS -----------------------
+// (utili nei componenti standalone che preferiscono var() a variabili Sass)
 :root {
-  --ink: #0f3252;
-  --ink-soft: #5f7c95;
-  --paper: #fff8f7;
-  --surface: #ffffff;
-  --line: #e6dad5;
-  --blu: #044e81;
-  --blu-dark: #03395f;
-  --salvia: #2f6e5e;
-  --errore: #a33a2c;
-  --radius: 12px;
+  --ink: #{$ink};
+  --ink-soft: #{$ink-soft};
+  --paper: #{$paper};
+  --surface: #{$surface};
+  --line: #{$line};
+  --blu: #{$blu};
+  --blu-dark: #{$blu-dark};
+  --blu-chiaro: #{$blu-chiaro};
+  --salvia: #{$salvia};
+  --ocra: #{$ocra};
+  --errore: #{$errore};
+  --radius: #{$border-radius};
+  --shadow: #{$box-shadow};
+  --font-display: #{$headings-font-family};
+  --font-mono: #{$font-family-monospace};
 }
 
-* {
-  box-sizing: border-box;
-}
-
+// 4. Elementi globali -----------------------------------------------------
 html,
 body {
-  margin: 0;
-  padding: 0;
+  height: 100%;
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+// Contenitore centrale usato da header, menu, footer e da ogni pagina.
+// Il padding laterale è fluido (clamp), non legato ai breakpoint: cresce con
+// la larghezza dello schermo fino a un tetto, invece di restare fisso o di
+// saltare a scatti come i container "responsive" standard di Bootstrap.
+.wrap {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 3rem);
 }
 
 h1,
 h2,
 h3 {
-  line-height: 1.2;
-  margin: 0 0 0.5em;
+  letter-spacing: -0.005em;
 }
 
-a {
-  color: var(--blu);
+.eyebrow {
+  font-family: $font-family-base;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: $ink-soft;
 }
 
-button {
-  font: inherit;
-  cursor: pointer;
+.text-price {
+  font-family: $font-family-monospace;
+  font-weight: 500;
 }
 
-.btn {
-  background: var(--blu);
-  color: #fff;
-  border: 0;
-  border-radius: 8px;
-  padding: 10px 18px;
-  font-weight: 600;
+// Bordo decorativo "punto uncinetto" riutilizzato in più sezioni
+.stitch-divider {
+  height: 22px;
+  opacity: 0.55;
 }
 
-.btn:hover {
-  background: var(--blu-dark);
+// focus visibile coerente su tutta l'app (RNF05: accessibilità)
+:focus-visible {
+  outline: 3px solid $blu;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-.btn:disabled {
-  background: #a8bcca;
-  cursor: not-allowed;
+.card-hover {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: $box-shadow-lg;
+    border-color: darken($line, 8%);
+  }
 }
 
-.btn-quiet {
-  background: none;
-  border: 1px solid var(--line);
-  color: var(--ink);
-}
-
-.wrap {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.field input,
-.field select {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 9px 11px;
-  font: inherit;
-}
-
-.field .error {
-  color: var(--errore);
-  font-size: 0.82rem;
-}
-
-.alert {
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 0.9rem;
-  margin-bottom: 14px;
-}
-
-.alert-bad {
-  background: #fbefec;
-  color: var(--errore);
-  border: 1px solid #edccc5;
-}
-
-.alert-ok {
-  background: #e6f0ec;
-  color: var(--salvia);
-  border: 1px solid #bcd8cd;
-}
-
-.empty-state {
-  border: 1px dashed var(--line);
-  border-radius: var(--radius);
-  padding: 32px 20px;
-  text-align: center;
-  color: var(--ink-soft);
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }

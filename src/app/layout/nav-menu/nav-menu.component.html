@@ -1,0 +1,20 @@
+<nav class="category-nav border-bottom" aria-label="Categorie del catalogo">
+  <div class="wrap">
+    <ul class="nav flex-nowrap overflow-x-auto py-1 gap-1">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/catalogo"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Tutti i capi</a
+        >
+      </li>
+      @for (c of categories; track c.code) {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/catalogo" [queryParams]="{ category: c.code }">{{ c.name }}</a>
+        </li>
+      }
+    </ul>
+  </div>
+</nav>

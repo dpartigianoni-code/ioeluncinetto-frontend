@@ -19,13 +19,16 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/assets"],
             "styles": ["src/styles.scss"],
-            "scripts": []
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules"]
+            }
           },
           "configurations": {
             "production": {
               "budgets": [
-                { "type": "initial", "maximumWarning": "500kb", "maximumError": "1mb" },
-                { "type": "anyComponentStyle", "maximumWarning": "4kb", "maximumError": "8kb" }
+                { "type": "initial", "maximumWarning": "650kb", "maximumError": "1.2mb" },
+                { "type": "anyComponentStyle", "maximumWarning": "8kb", "maximumError": "16kb" }
               ],
               "outputHashing": "all",
               "fileReplacements": [

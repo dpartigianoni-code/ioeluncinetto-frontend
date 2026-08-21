@@ -1,0 +1,38 @@
+.toast-zone {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  z-index: 1080;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  width: calc(100% - 32px);
+  max-width: 420px;
+}
+
+.toast-msg {
+  background: var(--ink);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  animation: rise 0.25s ease;
+}
+
+.toast-msg-bad {
+  background: var(--errore);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,14 @@
+<div class="toast-zone" role="status" aria-live="polite">
+  @for (a of alerts(); track a.id) {
+    <div
+      class="toast-msg shadow-lg"
+      [class.toast-msg-bad]="a.kind === 'bad'"
+      role="button"
+      tabindex="0"
+      (click)="dismiss(a.id)"
+      (keydown.enter)="dismiss(a.id)"
+    >
+      {{ a.text }}
+    </div>
+  }
+</div>

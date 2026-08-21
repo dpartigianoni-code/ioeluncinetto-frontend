@@ -1,0 +1,40 @@
+.site-header {
+  z-index: 1030;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border-color: var(--line) !important;
+}
+
+.brand-mark {
+  object-fit: contain;
+}
+
+.brand-word {
+  display: block;
+  height: 24px;
+  width: auto;
+}
+
+.brand-sub {
+  font-size: 0.56rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 1px;
+}
+
+.cart-btn {
+  font-weight: 500;
+}
+
+.cart-btn:hover,
+.cart-btn.active {
+  background-color: var(--blu-dark);
+  border-color: var(--blu-dark);
+}
+
+.cart-count {
+  min-width: 22px;
+  font-family: var(--font-mono);
+}

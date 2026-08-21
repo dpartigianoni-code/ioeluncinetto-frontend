@@ -1,83 +1,12 @@
-.card {
-  display: flex;
-  flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  text-decoration: none;
+.product-card {
   color: inherit;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
 }
 
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px -16px rgba(10, 45, 74, 0.34);
-}
-
-.card-art {
+.product-card-art {
   aspect-ratio: 4 / 5;
-  display: flex;
-  align-items: flex-end;
-  padding: 10px;
 }
 
-.card-cat {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--ink-soft);
-}
-
-.card-body {
-  padding: 12px 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.card-name {
-  font-weight: 600;
-  font-size: 1.05rem;
-}
-
-.card-yarn {
-  font-size: 0.82rem;
-  color: var(--ink-soft);
-}
-
-.card-foot {
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.price {
-  font-weight: 600;
-}
-
-.stock {
-  font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 3px 8px;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-
-.stock-ok {
-  background: #e6f0ec;
-  color: var(--salvia);
-}
-
-.stock-low {
-  background: #fbf1de;
-  color: #8a6011;
-}
-
-.stock-out {
-  background: #f0eae7;
-  color: var(--ink-soft);
+.card-title {
+  font-family: var(--font-display);
 }

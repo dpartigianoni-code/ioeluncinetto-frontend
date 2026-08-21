@@ -2,51 +2,64 @@
   <a routerLink="/catalogo" class="crumb">&larr; Torna al catalogo</a>
 
   @if (loading()) {
-    <p class="result-line">Caricamento…</p>
+    <div class="d-flex align-items-center gap-2 result-line mt-3">
+      <span class="spinner-border spinner-border-sm text-primary" aria-hidden="true"></span>
+      <span>Caricamento…</span>
+    </div>
   } @else if (notFound()) {
-    <div class="empty-state">
-      <h3>Questo capo non è più disponibile</h3>
-      <p>Il pezzo è stato venduto o ritirato dal catalogo.</p>
-      <a class="btn" routerLink="/catalogo">Torna al catalogo</a>
+    <div class="empty-state text-center mt-3">
+      <h3 class="h4">Questo capo non è più disponibile</h3>
+      <p class="text-body-secondary">Il pezzo è stato venduto o ritirato dal catalogo.</p>
+      <a class="btn btn-primary" routerLink="/catalogo">Torna al catalogo</a>
     </div>
   } @else {
     @if (product(); as p) {
-      <div class="detail">
-        <div class="detail-art">
-          <span class="detail-cat">{{ p.category.name }}</span>
+      <div class="row detail g-4 g-lg-5 mt-1">
+        <div class="col-lg-6">
+          <div class="detail-art">
+            <app-product-art [sku]="p.sku" [name]="p.name" [categoryName]="p.category.name" [tall]="true" />
+          </div>
         </div>
-        <div>
-          <p class="eyebrow">{{ p.category.name }} · {{ p.sku }}</p>
+        <div class="col-lg-6">
+          <p class="eyebrow mb-1">{{ p.category.name }} &middot; {{ p.sku }}</p>
           <h1>{{ p.name }}</h1>
-          <p class="price-lg">{{ p.priceCents / 100 | currency: p.currency }}</p>
-          <p>{{ p.description }}</p>
-          <dl>
-            <dt>Filato</dt>
-            <dd>{{ p.yarn }}</dd>
-            <dt>Misure</dt>
-            <dd>{{ p.sizes }}</dd>
-            <dt>Lavorazione</dt>
-            <dd>{{ p.workHours }}</dd>
-            <dt>Disponibilità</dt>
-            <dd>{{ p.availableQty === 0 ? 'Esaurito' : p.availableQty + ' pezzi pronti' }}</dd>
+          <p class="text-price price-lg">{{ p.priceCents / 100 | currency: p.currency }}</p>
+          <p class="mt-3">{{ p.description }}</p>
+
+          <dl class="row detail-dl">
+            <dt class="col-4 col-sm-3">Filato</dt>
+            <dd class="col-8 col-sm-9">{{ p.yarn }}</dd>
+            <dt class="col-4 col-sm-3">Misure</dt>
+            <dd class="col-8 col-sm-9">{{ p.sizes }}</dd>
+            <dt class="col-4 col-sm-3">Lavorazione</dt>
+            <dd class="col-8 col-sm-9">{{ p.workHours }}</dd>
+            <dt class="col-4 col-sm-3">Disponibilità</dt>
+            <dd class="col-8 col-sm-9">{{ p.availableQty === 0 ? 'Esaurito' : p.availableQty + ' pezzi pronti in laboratorio' }}</dd>
           </dl>
 
           @if (p.purchasable) {
-            <div class="buy-row">
-              <div class="field">
-                <label for="qta">Quantità (max {{ maxQty() }})</label>
-                <div class="qty">
-                  <button type="button" (click)="decrement()" aria-label="Diminuisci quantità">-</button>
-                  <input id="qta" type="number" [value]="quantity" readonly />
-                  <button type="button" (click)="increment()" aria-label="Aumenta quantità">+</button>
-                </div>
+            <div class="buy-row d-flex flex-wrap align-items-end gap-3">
+              <div>
+                <label class="form-label small text-uppercase text-body-secondary" [attr.for]="'qta-detail'"
+                  >Quantità (max {{ maxQty() }})</label
+                >
+                <app-quantity-stepper
+                  idSuffix="detail"
+                  label="Quantità"
+                  [value]="quantity"
+                  [min]="1"
+                  [max]="maxQty()"
+                  (valueChange)="onQuantityChange($event)"
+                />
               </div>
-              <button class="btn" type="button" [disabled]="adding()" (click)="addToCart()">
+              <button class="btn btn-primary btn-lg" type="button" [disabled]="adding()" (click)="addToCart()">
                 {{ adding() ? 'Aggiunta in corso…' : 'Aggiungi al carrello' }}
               </button>
             </div>
           } @else {
-            <div class="alert alert-bad">Questo capo è esaurito e non può essere aggiunto al carrello.</div>
+            <div class="alert alert-danger">
+              Questo capo è esaurito e non può essere aggiunto al carrello.
+            </div>
           }
         </div>
       </div>

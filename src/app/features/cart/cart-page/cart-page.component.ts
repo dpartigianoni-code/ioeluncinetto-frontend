@@ -6,12 +6,14 @@ import { RouterLink } from '@angular/router';
 import { ProblemDetail } from '../../../core/models/problem-detail.model';
 import { AlertService } from '../../../core/services/alert.service';
 import { CartService } from '../../../core/services/cart.service';
+import { ProductArtComponent } from '../../../shared/product-art/product-art.component';
+import { QuantityStepperComponent } from '../../../shared/quantity-stepper/quantity-stepper.component';
 
 /** EP05 (visualizzare), EP06 (modificare quantità), EP07 (rimuovere). */
 @Component({
   selector: 'app-cart-page',
   standalone: true,
-  imports: [RouterLink, CurrencyPipe],
+  imports: [RouterLink, CurrencyPipe, ProductArtComponent, QuantityStepperComponent],
   templateUrl: './cart-page.component.html',
   styleUrl: './cart-page.component.scss',
 })
@@ -30,23 +32,8 @@ export class CartPageComponent implements OnInit {
     });
   }
 
-  decrement(sku: string, currentQty: number): void {
-    if (currentQty > 1) {
-      this.updateQuantity(sku, currentQty - 1);
-    }
-  }
-
-  increment(sku: string, currentQty: number, maxQty: number): void {
-    if (currentQty < maxQty) {
-      this.updateQuantity(sku, currentQty + 1);
-    }
-  }
-
-  onQuantityInput(sku: string, value: string): void {
-    const quantity = Number(value);
-    if (Number.isInteger(quantity) && quantity >= 1) {
-      this.updateQuantity(sku, quantity);
-    }
+  onQuantityChange(sku: string, quantity: number): void {
+    this.updateQuantity(sku, quantity);
   }
 
   remove(sku: string, name: string): void {

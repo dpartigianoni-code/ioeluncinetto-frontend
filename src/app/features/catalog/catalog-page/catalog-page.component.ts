@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { CatalogSearchResponse, SORT_OPTIONS, SortOption } from '../../../core/models/catalog.model';
+import { CatalogSearchResponse, ProductSummary, SORT_OPTIONS, SortOption } from '../../../core/models/catalog.model';
 import { CatalogService } from '../../../core/services/catalog.service';
 import { ProductCardComponent } from '../product-card/product-card.component';
 
@@ -25,6 +25,12 @@ export class CatalogPageComponent implements OnInit {
   readonly loading = signal(true);
   readonly unavailable = signal(false);
 
+  readonly heroProducts = signal<ProductSummary[]>([]);
+  readonly heroImages = computed(() => {
+    const items = this.heroProducts();
+    return items.length ? [...items, ...items] : [];
+  });
+
   qInput = '';
   categoryInput = '';
   sortInput: SortOption = 'novita';
@@ -37,6 +43,7 @@ export class CatalogPageComponent implements OnInit {
       const page = Number(params.get('page') ?? '1') || 1;
       this.load(page);
     });
+    this.loadHeroProducts();
   }
 
   submitSearch(): void {
@@ -98,6 +105,16 @@ export class CatalogPageComponent implements OnInit {
           this.unavailable.set(err.status === 503);
         },
       });
+  }
+
+  private loadHeroProducts(): void {
+    this.catalogService.search({ sort: 'novita', size: 8 }).subscribe({
+      next: (res) => {
+        const available = res.items.filter((p) => p.availability !== 'ESAURITO');
+        this.heroProducts.set(available.length ? available : res.items);
+      },
+      error: () => this.heroProducts.set([]),
+    });
   }
 
   private navigate(queryParams: Record<string, string | number | null>): void {

@@ -2,63 +2,72 @@
   <h1>Il tuo carrello</h1>
 
   @if (loading()) {
-    <p class="result-line">Caricamento…</p>
+    <div class="d-flex align-items-center gap-2 result-line mt-3">
+      <span class="spinner-border spinner-border-sm text-primary" aria-hidden="true"></span>
+      <span>Caricamento…</span>
+    </div>
   } @else {
     @if (cart(); as c) {
       @if (c.empty) {
-        <div class="empty-state">
-          <h3>Il carrello è vuoto</h3>
-          <p>Non hai ancora scelto nessun capo.</p>
-          <a class="btn" routerLink="/catalogo">Vai al catalogo</a>
+        <div class="empty-state text-center mt-3">
+          <h3 class="h4">Il carrello è vuoto</h3>
+          <p class="text-body-secondary">Non hai ancora scelto nessun capo.</p>
+          <a class="btn btn-primary" routerLink="/catalogo">Vai al catalogo</a>
         </div>
       } @else {
-        <div class="cart-layout">
-          <div class="panel">
-            @for (line of c.lines; track line.sku) {
-              <div class="line">
-                <div class="line-art"></div>
-                <div>
-                  <div class="line-name">{{ line.name }}</div>
-                  @if (!line.stillPurchasable) {
-                    <div class="line-warning">Non più disponibile: rimuovilo per proseguire.</div>
-                  }
-                  <div class="line-ctl">
-                    <div class="qty">
-                      <button type="button" (click)="decrement(line.sku, line.quantity)" aria-label="Diminuisci quantità">-</button>
-                      <input
-                        type="number"
-                        [value]="line.quantity"
-                        (change)="onQuantityInput(line.sku, $any($event.target).value)"
-                      />
-                      <button
-                        type="button"
-                        (click)="increment(line.sku, line.quantity, line.maxSelectableQty)"
-                        aria-label="Aumenta quantità"
-                      >+</button>
-                    </div>
-                    <button class="link-btn" type="button" (click)="remove(line.sku, line.name)">Rimuovi</button>
+        <div class="row cart-layout g-4 mt-1">
+          <div class="col-lg-8">
+            <div class="panel card border-0 shadow-sm p-2 p-md-3">
+              @for (line of c.lines; track line.sku) {
+                <div class="line">
+                  <div class="line-art">
+                    <app-product-art [sku]="line.sku" [name]="line.name" />
                   </div>
+                  <div>
+                    <div class="line-name h5 mb-0">{{ line.name }}</div>
+                    @if (!line.stillPurchasable) {
+                      <div class="line-warning">Non più disponibile: rimuovilo per proseguire.</div>
+                    }
+                    <div class="line-ctl">
+                      <app-quantity-stepper
+                        [idSuffix]="line.sku"
+                        label="Quantità"
+                        [value]="line.quantity"
+                        [min]="1"
+                        [max]="line.maxSelectableQty"
+                        (valueChange)="onQuantityChange(line.sku, $event)"
+                      />
+                      <button class="btn btn-link btn-sm text-body-secondary p-0" type="button" (click)="remove(line.sku, line.name)">
+                        Rimuovi
+                      </button>
+                    </div>
+                  </div>
+                  <div class="line-tot text-price">{{ line.subtotalCents / 100 | currency: c.currency }}</div>
                 </div>
-                <div class="line-tot">{{ line.subtotalCents / 100 | currency: c.currency }}</div>
-              </div>
-            }
+              }
+            </div>
           </div>
 
-          <div class="panel">
-            <h3>Riepilogo</h3>
-            <div class="totals"><span>Articoli</span><span>{{ c.itemCount }}</span></div>
-            <div class="totals"><span>Totale prodotti</span><span>{{ c.goodsTotalCents / 100 | currency: c.currency }}</span></div>
-            <div class="totals"><span>Spedizione</span><span>{{ c.shippingCents ? (c.shippingCents / 100 | currency: c.currency) : 'Gratuita' }}</span></div>
-            <div class="totals grand"><span>Totale</span><span>{{ c.grandTotalCents / 100 | currency: c.currency }}</span></div>
-            <p class="note">Il checkout non è ancora disponibile in questa consegna.</p>
+          <div class="col-lg-4">
+            <div class="panel card border-0 shadow-sm p-3 p-md-4">
+              <h3 class="h5">Riepilogo</h3>
+              <div class="totals"><span>Articoli</span><span>{{ c.itemCount }}</span></div>
+              <div class="totals"><span>Totale prodotti</span><span>{{ c.goodsTotalCents / 100 | currency: c.currency }}</span></div>
+              <div class="totals">
+                <span>Spedizione</span>
+                <span>{{ c.shippingCents ? (c.shippingCents / 100 | currency: c.currency) : 'Gratuita' }}</span>
+              </div>
+              <div class="totals grand"><span>Totale</span><span>{{ c.grandTotalCents / 100 | currency: c.currency }}</span></div>
+              <p class="note">Il checkout non è ancora disponibile in questa consegna.</p>
+            </div>
           </div>
         </div>
       }
     } @else {
-      <div class="empty-state">
-        <h3>Il carrello è vuoto</h3>
-        <p>Non hai ancora scelto nessun capo.</p>
-        <a class="btn" routerLink="/catalogo">Vai al catalogo</a>
+      <div class="empty-state text-center mt-3">
+        <h3 class="h4">Il carrello è vuoto</h3>
+        <p class="text-body-secondary">Non hai ancora scelto nessun capo.</p>
+        <a class="btn btn-primary" routerLink="/catalogo">Vai al catalogo</a>
       </div>
     }
   }

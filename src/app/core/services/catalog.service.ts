@@ -13,7 +13,7 @@ export interface CatalogSearchQuery {
   size?: number;
 }
 
-/** Un servizio per modulo server, corrispondenza uno a uno con gli endpoint (Solution Design 11.2). */
+/** Un servizio per modulo server, corrispondenza uno a uno con gli endpoint. */
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
   private readonly http = inject(HttpClient);

@@ -1,0 +1,18 @@
+<header class="site-header sticky-top border-bottom">
+  <div class="wrap d-flex align-items-center gap-3 py-2">
+    <a class="brand d-flex align-items-center gap-2 text-decoration-none" routerLink="/catalogo">
+      <img src="assets/brand/marchio.png" width="36" height="35" alt="" class="brand-mark" />
+      <span class="d-flex flex-column">
+        <img src="assets/brand/wordmark.png" alt="Io e l'uncinetto" class="brand-word" />
+        <span class="brand-sub d-none d-sm-inline">Fatto a mano con amore</span>
+      </span>
+    </a>
+
+    <div class="ms-auto d-flex align-items-center">
+      <a routerLink="/carrello" routerLinkActive="active" class="btn btn-primary rounded-pill cart-btn d-inline-flex align-items-center gap-2">
+        <span>Carrello</span>
+        <span class="badge rounded-pill text-bg-light cart-count">{{ itemCount() }}</span>
+      </a>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,33 @@
+<div class="input-group input-group-qty">
+  <button
+    class="btn btn-outline-secondary"
+    type="button"
+    [disabled]="disabled || value <= min"
+    (click)="decrement()"
+    [attr.aria-label]="'Diminuisci ' + label.toLowerCase()"
+  >
+    &minus;
+  </button>
+  <input
+    type="number"
+    class="form-control text-center"
+    [id]="inputId"
+    [attr.aria-label]="label"
+    [min]="min"
+    [max]="max"
+    step="1"
+    inputmode="numeric"
+    [value]="value"
+    [disabled]="disabled"
+    (change)="onInput($any($event.target).value)"
+  />
+  <button
+    class="btn btn-outline-secondary"
+    type="button"
+    [disabled]="disabled || value >= max"
+    (click)="increment()"
+    [attr.aria-label]="'Aumenta ' + label.toLowerCase()"
+  >
+    +
+  </button>
+</div>

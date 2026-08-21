@@ -1,0 +1,24 @@
+.category-nav {
+  background: var(--surface);
+  border-color: var(--line) !important;
+}
+
+.nav-link {
+  white-space: nowrap;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    color: var(--blu);
+    background: var(--blu-chiaro);
+  }
+
+  &.active {
+    color: #fff;
+    background: var(--blu);
+  }
+}
